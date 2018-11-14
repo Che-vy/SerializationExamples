@@ -30,9 +30,12 @@ public class SaveLoadJSON : MonoBehaviour
 
     public void NewButton()
     {
-        GGbrah g = new GGbrah();
-        ggList.Add(g);
-        goList.Add(g.go);
+        GameObject go = new GameObject();
+        go.AddComponent(typeof(GGbrah));
+        GGbrah gg = go.GetComponent<GGbrah>();
+        gg.RandomInit();
+        ggList.Add(gg);
+        goList.Add(go);
     }
 
     public void SaveButton()
@@ -48,20 +51,24 @@ public class SaveLoadJSON : MonoBehaviour
     {
         dataNode = JsonManager.LoadAllText(filename + ".json");
 
+
         foreach (GameObject go in goList) { Destroy(go); }
         goList = new List<GameObject>();
-        foreach (GGbrah gg in ggList) { Destroy(gg.go); }
         ggList = new List<GGbrah>();
 
         dataList = JsonManager.DeserializeJson<List<GGbrahData>>(dataNode);
 
         for (int i = 0; i < dataList.Count; i++)
         {
-            GGbrah gg = new GGbrah();
+
+            GameObject go = new GameObject();
+            go.AddComponent(typeof(GGbrah));
+            GGbrah gg = go.GetComponent<GGbrah>();
             gg.Init();
             gg.ImportBallData(dataList[i]);
+
             ggList.Add(gg);
-            goList.Add(gg.go);
+            goList.Add(go);
         }
 
     }

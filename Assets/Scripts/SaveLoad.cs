@@ -73,7 +73,7 @@ public class SaveLoad : MonoBehaviour
     }
     public void LoadJSON() { }
 
-    public void LoadButton()
+    public void Loadbutton()
     {
         ggbrah = LoadDataFromDisk<GGbrahData>(fileName);
         int count = ggbrah.list.Count;
@@ -82,17 +82,24 @@ public class SaveLoad : MonoBehaviour
         
         for (int i = 0; i < count; i++)
         {
-            GameObject go = GGBrahToGameObject(ggbrah.list[i], i);
-            goList.Add(go);
+            //GameObject go = GGBrahToGameObject(ggbrah.list[i], i);
+            goList.Add(GGBrahToGameObject(ggbrah.list[i], i));
         }
     }
 
     public void ClearGOList(List<GameObject> list) {
-        foreach (GameObject go in goList)
-        {
-            Destroy(go);
+
+        for (int i = list.Count; i >= 0; i--) {
+            Debug.Log("Destroying : " + list[i].name);
+            Destroy(list[i]);
+            list.RemoveAt(i);
         }
-        goList = new List<GameObject>();
+
+        //foreach (GameObject go in list)
+        //{
+        //    Destroy(go);
+        //    list.Remove(go);
+        //}
     }
 
     public GameObject GGBrahToGameObject(GGbrahData gg, int i) {
